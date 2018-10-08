@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"></meta>
+    <title>管理后台</title>
+    <meta name="renderer" content="webkit"></meta>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"></meta>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"></meta>
+    <meta name="apple-mobile-web-app-capable" content="yes"></meta>
+    <meta name="format-detection" content="telephone=no"></meta>
+    <link th:href="@{/common/img/favicon.ico}" rel="SHORTCUT ICON" />
+    <link rel="stylesheet" th:href="@{/common/plugins/layui/css/layui.css}"></link>
+    <link rel="stylesheet" th:href="@{/admin/css/global.css}" media="all" />
+    <link rel="stylesheet" th:href="@{/common/plugins/font-awesome/css/font-awesome.css}" media="all" />
+    <script type="text/javascript" th:src="@{/common/plugins/layui/layui.js}"></script>
+    <script type="text/javascript" th:src="@{/admin/js/datas/nav.js?123}"></script>
+    <script th:src="@{/common/js/tx.js}"></script>
+
+    <script>
+        TX.TEMP.ROOT = "";
+    </script>
+    <script>
+     
+        TX.INIT(function () { 
+        });
+        function update(method, id) {
+            top.window.TX.TEMP.LAYERINDEX = top.window.layer.open({
+                title: "",
+                type: 2,
+                content: "{:url('/admin/modifypass')}?admin_id=" + id + "&amp;" + Math.random(),
+                area: ["600px", "300px"]
+            });
+
+        }
+    </script>
+</head>
+<body>
+
+
+    <div class="layui-layout layui-layout-admin" >
+
+        <div class="layui-header header header-demo">
+            <div class="layui-main">
+                <div class="admin-login-box">
+                    <a class="logo" style="left: 0;">
+							<span style="font-size: 22px;">北京xxxx有限公司</span>
+						</a>
+                    <div class="admin-side-toggle">
+                        <i class="fa fa-bars" aria-hidden="true"></i>
+                    </div>
+                    <div class="admin-side-full">
+                        <i class="fa fa-life-bouy" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <ul class="layui-nav admin-header-item">
+     
+                    <li class="layui-nav-item">
+                        <a href="javascript:;" class="admin-header-user">
+								<img th:src="@{/admin/images/0.jpg}" />
+							<!--	<span th:text="${session.login_user.loginName}"></span>-->
+							</a>
+                        <dl class="layui-nav-child">
+                       <!-- 
+                            <dd>
+                               <a href="javascript:;" th:onclick="'update(\'resetpwd\', ' + ${session.login_user.adminId} + ');'"><i class="fa fa-gear" aria-hidden="true"></i>修改密码</a> 
+                            </dd> -->
+                            <dd>
+                                <a href="/admin/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a>
+                            </dd>
+                        </dl>
+                    </li>
+                </ul>
+                <ul class="layui-nav admin-header-item-mobile">
+                    <li class="layui-nav-item">
+                        <a href="login.html"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="layui-side layui-bg-black" id="admin-side">
+            <div class="layui-side-scroll" id="admin-navbar-side" lay-filter="side"></div>
+        </div>
+        <div class="layui-body" style="bottom: 0;border-left: solid 2px #1AA094;" id="admin-body">
+            <div class="layui-tab admin-nav-card layui-tab-brief" lay-filter="admin-tab">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">
+                        <i class="fa fa-dashboard" aria-hidden="true"></i>
+                        <cite>后台管理</cite>
+                    </li>
+                </ul>
+                <div class="layui-tab-content" style="min-height: 150px; padding: 5px 0 0 0;">
+                    <div class="layui-tab-item layui-show">
+						<iframe src="/admin/main"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-footer footer footer-demo" id="admin-footer">
+            <div class="layui-main">
+                <p>©2018 北京xxxx有限公司</p>
+            </div>
+        </div>
+
+    </div>
+</body>
+<script th:src="@{/admin/js/index.js}"></script>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorator="admin/layout">
+<div layout:fragment="content" class="admin-main layui-anim layui-anim-upbit" style="margin: 15px;">
+    <form class="layui-form" method="post" action="/dimright/saveAndUpdate">
+  <span th:if="${info} != null">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend th:text="|${info?.rightId} 信息编辑|"></legend>
+    </fieldset>
+
+       <div class="layui-form-item">
+            <label class="layui-form-label">权益编号</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" name="rightId" th:value="${info?.rightId}" placeholder="请输入权益编号"
+                       title="rightId" readonly="readonly" style="color: gray" />
+            </div>
+        </div>
+  </span>
+
+        <span th:if="${info} == null">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend th:text="信息添加"></legend>
+    </fieldset>
+            <input type="hidden" name="flag" value="true"/>
+           <div class="layui-form-item">
+            <label class="layui-form-label">权益编号</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" name="rightId" placeholder="请输入权益编号"
+                       title="rightId" lay-verify="required|number"/>
+            </div>
+        </div>
+  </span>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">权益名称</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" name="rightName" th:value="${info?.rightName}"
+                       placeholder="请输入权益名称"
+                       title="rightName" lay-verify="required"/>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">价格</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" name="price" th:value="${info?.price}" placeholder="请输入价格"
+                       title="price" lay-verify="required|number"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+        <label class="layui-form-label">类型</label>
+        <div class="layui-input-block">
+            <input type="radio" name="rightTypeId" value="1" title="本人"
+                   th:checked="${info?.rightTypeId} == '1' or ${cardSes} == null ">
+            <input type="radio" name="rightTypeId" value="2" title="随行"
+                   th:checked="${info?.rightTypeId} == '2'">
+        </div>
+        </div>
+
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">范围内折扣</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" name="inDiscount" th:value="${info?.inDiscount}"
+                       placeholder="请输入范围内折扣"
+                       title="inDiscount" lay-verify="required|number"/>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">范围外折扣</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" name="outDiscount" th:value="${info?.outDiscount}"
+                       placeholder="请输入范围外折扣"
+                       title="outDiscount" lay-verify="required|number"/>
+            </div>
+            <div class="layui-form-mid layui-word-aux">范围外折扣提示</div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">描述</label>
+            <div class="layui-input-inline">
+            <textarea class="layui-input" name="desc" placeholder="请输入描述" th:text="${info?.desc}"
+                      style="width:500px;height:300px">
+            </textarea>
+
+            </div>
+            <div class="layui-form-mid layui-word-aux"></div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="demo">
+                    <i class="layui-icon">&#xea97;</i>
+                    保存
+                </button>
+
+                <button type="button" class="layui-btn" id="btnClose" onclick="javascript:history.back()">
+                    <i class="layui-icon">&#xe68d;</i>
+                    返回
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+
+</div>
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+
+        layui.use('form', function () {
+            var form = layui.form;
+
+
+
+            form.on('submit(demo)', function (data) {
+
+                $.ajax({
+                    url: data.form.action,
+                    type: data.form.method,
+                    data: $(data.form).serialize(),
+                    success: function (data) {
+                        if (data.success) {
+                            layer.msg('保存成功', {
+                                time: 1500 //1500ms关闭（如果不配置，默认是3秒）
+                            }, function () {
+                                window.location = "/dimright/selectList";
+                            });
+                        } else {
+                            layer.msg(data.msg,{ icon: 2 });
+                        }
+                    }
+                });
+                return false;
+            });
+        });
+
+
+    </script>
+</th:block>

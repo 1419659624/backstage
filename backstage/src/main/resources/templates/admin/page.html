@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"></meta>
+
+</head>
+
+<body style="padding: 5px;">
+<!-- 分页导航条 -->
+
+<input type="hidden" name="total" th:value="${pager.totalRecord}"/>
+<input type="hidden" name="pageNum" th:value="${pager.pageNum}"/>
+<input type="hidden" name="pageSize" th:value="${pager.pageSize}"/>
+<input type="hidden" name="url" th:value="${url}"/>
+<input type="hidden" name="url" th:value="${keys}"/>
+<div id="page" style="text-align:right"></div>
+<script>
+    layui.use(['laypage', 'layer'], function(){
+        var laypage = layui.laypage
+            ,layer = layui.layer;
+        var count=$("input[name='total']").val();
+        var pageNum=$("input[name='pageNum']").val();
+        var pageSize=$("input[name='pageSize']").val();
+        var url=$("input[name='url']").val();
+        var keys=$("input[name='keys']").val();
+
+        //执行一个laypage实例
+        laypage.render({
+             elem: 'page' //注意，这里的 test1 是 ID，不用加 # 号
+            ,count: count //数据总数，从服务端得到
+            ,limit:pageSize
+            ,curr:pageNum
+            ,layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+            ,jump: function(obj, first){ // 切换页码的时候调用
+                //首次不执行
+                if(!first){
+                    location.href=url+"?pageNum="+obj.curr+'&pageSize='+obj.limit+'&keys='+keys;
+                }
+            }
+        });
+    });
+</script>
+
+
+
+</html>

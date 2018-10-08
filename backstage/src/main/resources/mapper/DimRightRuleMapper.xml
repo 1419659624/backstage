@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jst.dao.DimRightRuleMapper" >
+  <resultMap id="BaseResultMap" type="com.jst.model.DimRightRule" >
+    <id column="rule_id" property="ruleId" jdbcType="INTEGER" />
+    <result column="right_id" property="rightId" jdbcType="INTEGER" />
+    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="card_se" property="cardSe" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    rule_id, right_id, type_id, card_se
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from _dim_right_rule
+    where rule_id = #{ruleId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from _dim_right_rule
+    where rule_id = #{ruleId,jdbcType=INTEGER}
+  </delete>
+
+
+  <!--根据条件获取数据-->
+  <select id="selectByCondition" parameterType="java.util.Map" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from _dim_right_rule where 1=1
+    <if test="ruleId != null" >
+      and rule_id = #{rightId,jdbcType=INTEGER}
+    </if>
+    <if test="rightId != null" >
+      and right_id = #{rightId,jdbcType=INTEGER}
+    </if>
+
+    <if test="typeId != null" >
+      and type_id = #{typeId,jdbcType=INTEGER}
+    </if>
+    <if test="cardSe != null" >
+      and card_se = #{cardSe,jdbcType=INTEGER}
+    </if>
+  </select>
+
+  <insert id="insert" parameterType="com.jst.model.DimRightRule" >
+    insert into _dim_right_rule (rule_id, right_id, type_id,
+    card_se)
+    values (#{ruleId,jdbcType=INTEGER}, #{rightId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER},
+    #{cardSe,jdbcType=INTEGER})
+  </insert>
+
+  <!--会员本人权益增加-->
+  <insert id="insertTypeByMember" parameterType="com.jst.model.DimRightRule" >
+    insert into _dim_right_rule (rule_id, right_id, type_id,
+    card_se)
+    values (#{ruleId,jdbcType=INTEGER}, #{rightId,jdbcType=INTEGER}, #{typeIds,jdbcType=INTEGER},
+    #{cardSes,jdbcType=INTEGER})
+  </insert>
+
+  <!--会员随从权益增加-->
+  <insert id="insertTypeByRetinue" parameterType="com.jst.model.DimRightRule" >
+    insert into _dim_right_rule (rule_id, right_id, type_id,
+    card_se)
+    values (#{ruleId,jdbcType=INTEGER}, #{rightId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER},
+    #{cardSe,jdbcType=INTEGER})
+  </insert>
+
+  <!--会员本人权益修改-->
+  <update id="updateTypeByMember" parameterType="com.jst.model.DimRightRule" >
+    update _dim_right_rule
+    set
+    card_se = #{cardSes,jdbcType=INTEGER}
+    where right_id = #{rightId,jdbcType=INTEGER}
+    and type_id =  #{typeIds,jdbcType=INTEGER}
+  </update>
+
+  <!--会员随从权益修改-->
+  <update id="updateTypeByRetinue" parameterType="com.jst.model.DimRightRule" >
+    update _dim_right_rule
+    set card_se = #{cardSe,jdbcType=INTEGER}
+    where right_id = #{rightId,jdbcType=INTEGER}
+     and type_id =  #{typeId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectInfo" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select card_se  from  _dim_right_rule   where right_id=#{rightId}
+  </select>
+
+
+  <insert id="insertSelective" parameterType="com.jst.model.DimRightRule" >
+    insert into _dim_right_rule
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ruleId != null" >
+        rule_id,
+      </if>
+      <if test="rightId != null" >
+        right_id,
+      </if>
+      <if test="typeId != null" >
+        type_id,
+      </if>
+      <if test="cardSe != null" >
+        card_se,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ruleId != null" >
+        #{ruleId,jdbcType=INTEGER},
+      </if>
+      <if test="rightId != null" >
+        #{rightId,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="cardSe != null" >
+        #{cardSe,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jst.model.DimRightRule" >
+    update _dim_right_rule
+    <set >
+      <if test="rightId != null" >
+        right_id = #{rightId,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="cardSe != null" >
+        card_se = #{cardSe,jdbcType=INTEGER},
+      </if>
+    </set>
+    where rule_id = #{ruleId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jst.model.DimRightRule" >
+    update _dim_right_rule
+    set right_id = #{rightId,jdbcType=INTEGER},
+    type_id = #{typeId,jdbcType=INTEGER},
+    card_se = #{cardSe,jdbcType=INTEGER}
+    where rule_id = #{ruleId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+
+<head>
+    <meta charset="utf-8"></meta>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"></meta>
+    <title></title>
+    <link rel="stylesheet" th:href="@{/common/plugins/layui/css/layui.css}"></link>
+    <link rel="stylesheet" th:href="@{/admin/css/login.css}" />
+    <script type="text/javascript" th:src="@{/common/plugins/layui/layui.js}"></script>
+    <script th:src="@{/common/js/tx.js}" type="text/javascript"></script>
+    <script>
+        TX.INIT(function (layui) {
+            var form = layui.form;
+            form.on("submit", function (data) {
+                loading = layer.load(1, { shade: [0.1, '#fff'] });//0.1透明度的白色背景
+                $.post('/admin/login', data.field, function (resp) {
+                    layer.close(loading);
+                    if (resp.success) {
+                        TX.MSG.msg(resp.msg, { time: 10 }, function () {
+                            location.href = resp.url;
+                        });
+                    } else {
+                        TX.MSG.msg(resp.msg, { icon: 2 });
+                    }
+                });
+                return false;
+
+            });
+        });
+    </script>
+</head>
+
+<body class="beg-login-bg">
+<div class="container login">
+    <div class="content">
+        <div id="large-header" class="large-header">
+            <canvas id="demo-canvas"></canvas>
+            <div class="main-title">
+                <div class="beg-login-box">
+                    <header>
+                        <h1>后台登录</h1>
+                    </header>
+                    <div class="beg-login-main">
+                        <form class="layui-form layui-form-pane" method="post">
+                            <div class="layui-form-item">
+                                <label class="beg-login-icon fs1">
+                                    <span class="icon icon-user"></span>
+                                </label>
+                                <input type="text" name="username" lay-verify="required" placeholder="这里输入登录名" value="" class="layui-input"></input>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="beg-login-icon fs1">
+                                    <i class="icon icon-key"></i>
+                                </label>
+                                <input type="password" name="password" lay-verify="required" placeholder="这里输入密码" value="" class="layui-input"></input>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <button type="button" class="layui-btn btn-submit btn-blog" lay-submit="" lay-filter="login">登录</button>
+                            </div>
+                        </form>
+                    </div>
+                    <footer>
+                        <p>北京xxxx有限公司 管理后台</p>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/admin/js/rAF.js}"></script>
+<script th:src="@{/admin/js/login.js}"></script>
+
+</body>
+</html>

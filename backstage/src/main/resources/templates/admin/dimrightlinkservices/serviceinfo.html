@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml" layout:decorator="admin/layout">
+<div layout:fragment="content" class="admin-main layui-anim layui-anim-upbit">
+
+
+
+    <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">贵宾厅</li>
+            <li>安检</li>
+            <li>值机</li>
+        </ul>
+        <div class="layui-tab-content" style="height: 100px;">
+            <div class="layui-tab-item layui-show">
+                <input type="hidden" name="rightId" th:value="${rightId}"/>
+                <input type="hidden" name="typeId" th:value="1"/>
+
+                <table class="layui-hide" id="test" lay-filter="lay1"></table>
+                <div class="layui-form-item" >
+                    <div class="layui-input-inline" style="align:left">
+                        <button type="button" class="layui-btn" onclick="getCheckInfo(1)" >
+                            <i class="layui-icon">&#xea97;</i>
+                            保存
+                        </button>
+                        <button type="button" class="layui-btn" id="btnClose" onclick="javascript:history.back()">
+                            <i class="layui-icon">&#xe68d;</i>
+                            返回
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+
+                <div class="layui-tab-item layui-show">
+                    <input type="hidden" name="rightId" th:value="${rightId}"/>
+                    <input type="hidden" name="typeId" th:value="1"/>
+
+                    <table class="layui-hide" id="test1"></table>
+                    <div class="layui-form-item">
+                        <div class="layui-input-inline" style="align:left">
+                            <button type="button" class="layui-btn" onclick="getCheckInfo(2)">
+                                <i class="layui-icon">&#xea97;</i>
+                                保存
+                            </button>
+                            <button type="button" class="layui-btn" id="btnClose" onclick="javascript:history.back()">
+                                <i class="layui-icon">&#xe68d;</i>
+                                返回
+                            </button>
+                        </div>
+
+            </div>
+            <div class="layui-tab-item">内容3</div>
+        </div>
+
+    </div>
+
+
+</div>
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        var objData=[];
+        layui.use(['form','element','table','jquery'], function(){
+            var form = layui.form,
+            element = layui.element,
+            table = layui.table,
+            $= layui.$;
+
+            var rightId=$("input[name='rightId']").val();
+            var typeId=$("input[name='typeId']").val();
+            //第一个实例
+            table.render({
+                id:'reportRelaod1',
+                elem: '#test'
+                ,height: 312
+                ,url: '/dimRightLinkServices/serviceInfo' //数据接口
+                ,where: {rightId:rightId,typeId:typeId}
+                ,cols: [[ //表头
+                    {type:'checkbox'},
+                    {field: 'serviceId', title: 'serviceId', width:80,  sort: true}
+                    ,{field: 'serviceName', title: 'serviceName', width:80}
+                ]],
+                done: function(res, curr, count){
+                    var data=res.data;
+                    var unitTypeCheckbox=$("input[type='checkbox']");
+                    for(var i=0;i<data.length;i++){
+                        if(data[i].lay_checked==true){
+                            unitTypeCheckbox[i+1].checked=true;
+                        }
+                    }
+
+                       form.render();
+                }
+            });
+
+
+            //第二个实例
+            table.render({
+                id:'reportRelaod2',
+                elem: '#test1'
+                ,height: 312
+                ,url: '/dimRightLinkServices/serviceInfo' //数据接口
+                ,where: {rightId:rightId,typeId:typeId}
+                ,cols: [[ //表头
+                    {type:'checkbox'},
+                    {field: 'serviceId', title: 'serviceId', width:80,  sort: true}
+                    ,{field: 'serviceName', title: 'serviceName', width:80}
+                ]]
+            });
+
+
+            table.on('checkbox(lay1)', function(obj){
+                objData.push(obj.data);
+            });
+
+        });
+
+        //保存或者删除数据
+        function getCheckInfo(number) {
+            $.ajax({
+                url: "/dimRightLinkServices/saveAndDelete",
+                type: 'POST',
+                data: {"objData":JSON.stringify(objData)},
+                success: function (data) {
+                    if (data.success) {
+                        layer.msg('保存成功', {
+                            time: 1500 //1500ms关闭（如果不配置，默认是3秒）
+                        }, function () {
+                        });
+                    } else {
+                        layer.msg('保存失败', {
+                            time: 1500 //1500ms关闭（如果不配置，默认是3秒）
+                        }, function () {
+                        });
+                    }
+                }
+            });
+         }
+
+
+    </script>
+</th:block>

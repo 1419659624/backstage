@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="lt-ie9 lt-ie8 lt-ie7" lang="en">
+<![endif]-->
+
+<!--[if IE 7]>
+<html class="lt-ie9 lt-ie8" lang="en">
+<![endif]-->
+
+<!--[if IE 8]>
+<html class="lt-ie9" lang="en">
+<![endif]-->
+
+<!--[if gt IE 8]>
+<!-->
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"></meta>
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+	<meta name="description" content=""></meta>
+	<meta name="author" content=""></meta>
+	<link th:href="@{/common/img/favicon.ico}" rel="SHORTCUT ICON" />
+
+	<script type="text/javascript" th:src="@{/common/js/jquery-3.2.1.min.js}"></script>
+
+	<link rel="stylesheet" th:href="@{/common/plugins/layui/css/layui.css}"></link>
+	<script type="text/javascript" th:src="@{/common/plugins/layui/layui.js}"></script>
+	<script type="text/javascript" th:src="@{/common/plugins/My97DatePicker/WdatePicker.js}"></script>
+	<script th:src="@{/ueditor/ueditor.config.js}"></script>
+	<script th:src="@{/ueditor/ueditor.all.min.js}"></script>
+
+	<script th:src="@{/ueditor/ueditor.all.js}"></script>
+	<script th:src="@{/common/js/tx.js}"></script>
+
+	<th:block layout:fragment="script"></th:block>
+	<th:block layout:fragment="css"></th:block>
+
+	<!--<script>
+		TX.TEMP.ROOT = "";
+
+		TX.INIT(function(){
+		});
+	</script>-->
+
+</head>
+
+<body style="padding: 5px;">
+
+<div layout:fragment="content"></div>
+
+
+
+
+</html>

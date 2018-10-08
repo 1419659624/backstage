@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.w3.org/1999/xhtml" layout:decorator="admin/layout">
+
+<div layout:fragment="content"
+	class="admin-main layui-anim layui-anim-upbit" style="margin: 15px;">
+	<div class="table-responsive">
+		<table class="layui-table" lay-even="" lay-skin="line">
+			<colgroup>
+			</colgroup>
+			<thead>
+				<tr>
+					<th class="text-center" colspan="2">系统信息</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>网站域名</td>
+					<td th:text="${domain}"></td>
+				</tr>
+				<tr>
+					<td>网站目录</td>
+					<td th:text="${root}"></td>
+				</tr>
+				<tr>
+					<td>服务器操作系统</td>
+					<td th:text="${os}"></td>
+				</tr>
+				<tr>
+					<td>服务器端口</td>
+					<td th:text="${port}"></td>
+				</tr>
+				<tr>
+					<td>服务器IP</td>
+					<td th:text="${ip}"></td>
+				</tr>
+				<tr>
+					<td>Java的运行环境</td>
+					<td th:text="${version}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+</html>

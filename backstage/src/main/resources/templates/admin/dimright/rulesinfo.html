@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml" layout:decorator="admin/layout">
+<div layout:fragment="content" class="admin-main layui-anim layui-anim-upbit">
+    <form class="layui-form" method="post"  action="/dimrightrule/saveRules" id="draftClue">
+        <input type="hidden" name="rightId" th:value="${rightId}"/>
+        <div class="layui-form-item">
+
+            <label class="layui-form-label"></label>
+            <BR>
+            <div class="layui-input-block">
+                <span th:text="会员本人" style="font-size: 15px;font-weight: bold;text-align: left"></span>
+            </div>
+
+            <div class="layui-input-block" >
+                <input type="hidden" name="typeIds" th:value="1"/>
+                <input type="radio" name="cardSes" value="1" title="免费"     th:checked="${cardSes} == '1' or ${cardSes} == null"  >
+                <input type="radio" name="cardSes" value="2" title="超出次数收费"  th:checked="${cardSes} == '2'" >
+                <input type="radio" name="cardSes" value="4" title="超出次数禁用"  th:checked="${cardSes} == '4'" >
+                <input type="radio" name="cardSes" value="8" title="禁用"   th:checked="${cardSes} == '8'"  >
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <BR>
+            <div class="layui-input-block">
+                <legend th:text="会员随行" style="font-size: 15px;font-weight: bold;text-align: left"></legend>
+            </div>
+            <div class="layui-input-block">
+                <input type="hidden" name="typeId" th:value="2"/>
+                <input type="radio" name="cardSe" value="1" title="免费"     th:checked="${cardSe} == '1' or ${cardSes} == null"  >
+                <input type="radio" name="cardSe" value="2" title="超出次数收费"  th:checked="${cardSe} == '2'" >
+                <input type="radio" name="cardSe" value="4" title="超出次数禁用"  th:checked="${cardSe} == '4'"  >
+                <input type="radio" name="cardSe" value="8" title="禁用"   th:checked="${cardSe} == '8'" >
+            </div>
+
+        </div>
+
+    </form>
+</div>
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        layui.use('form', function(){
+            var form = layui.form;
+            form.render(); //更新全部
+        });
+
+    </script>
+</th:block>

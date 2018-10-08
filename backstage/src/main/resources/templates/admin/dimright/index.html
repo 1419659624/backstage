@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml" layout:decorator="admin/layout">
+<div layout:fragment="content" class="admin-main layui-anim layui-anim-upbit" style="margin: 15px;">
+
+    <div class="admin-main layui-anim layui-anim-upbit">
+        <blockquote class="layui-elem-quote">
+
+            <div class="layui-btn-group">
+                <a type="button" th:title="添加" th:href="@{/dimright/updateAndInster/-1}"
+                   class="layui-btn layui-btn-small">
+                    <i class="layui-icon">&#xe687;</i>
+                    添加
+                </a>
+            </div>
+
+            <form class="layui-form" style="float:right;">
+
+                <div class="layui-form-item" style="margin:0;">
+
+                    <label class="layui-form-label">权益名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="keys" placeholder="权益名称……" th:value="${keys}" autocomplete="off" class="layui-input" />
+                    </div>
+                    <div class="layui-form-mid layui-word-aux" style="padding:0;">
+                        <button lay-filter="search" class="layui-btn" lay-submit="lay-submit">
+                            <i class="layui-icon">&#xe701;</i> 查询
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+        </blockquote>
+        <div class="layui-field-box layui-form">
+            <table class="layui-table admin-table">
+                <thead>
+                <tr>
+                    <th>权益编号</th>
+                    <th>权益名称</th>
+                    <th>描述</th>
+                    <th>价格</th>
+                    <th>类型</th>
+                    <th>范围内折扣</th>
+                    <th>范围外折扣</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody id="content">
+                <th:block th:each="info : ${dimRightList}">
+                    <tr>
+                        <td th:text="${info.rightId}"></td>
+                        <td th:text="${info.rightName}"></td>
+                        <td th:text="${info.desc}"></td>
+                        <td th:text="${info.price}"></td>
+                        <td th:switch="${info.rightTypeId}">
+                            <p th:case="'1'">本人</p>
+                            <p th:case="2">随行</p>
+                        </td>
+                        <td th:text="${info.inDiscount}"></td>
+                        <td th:text="${info.outDiscount}"></td>
+                        <td th:text="${info.createTime}"></td>
+
+                        <td>
+                            <span>
+
+
+                            <a type="button" th:title="|${info.rightId} 消息详情|" th:href="@{'/dimright/updateAndInster/'+${info.rightId}}"
+                               class="layui-btn layui-btn-mini layui-btn-normal">
+                                <i class="layui-icon">&#xe691;</i>
+                                编辑
+                            </a>
+                            </span>
+                            <span th:if="${info.rightTypeId} != 0">
+                            <button type="button"  th:attr="data-method='open',data-id=${info.rightId}"
+                                    class="layui-btn layui-btn-mini">
+                                <i class="layui-icon">&#xe776;</i>
+                               规则设置
+                            </button>
+                                <a type="button" th:title="|${info.rightId} 消息详情|" th:href="@{'/dimRightLinkServices/serviceConfiguration/'+${info.rightId}}"
+                                     class="layui-btn layui-btn-mini layui-btn-normal">
+                                <i class="layui-icon">&#xe691;</i>
+                                 服务设置
+                            </a>
+                            </button>
+                            </span>
+
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+        </div>
+        <div th:replace="admin/page"></div>
+    </div>
+
+</div>
+
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+
+        TX.INIT(function () {
+
+            $("button[data-method]").click(function () {
+
+                var id = $(this).attr("data-id");
+                var method = $(this).attr("data-method");
+
+                if (method == "open") {
+                    window.layer.open({
+                        title: "规则设置",
+                        type: 2,
+                        btn: ['保存','退出'],
+                        content: "/dimrightrule/openRules/" + id + "?&" + Math.random(),
+                        area: ["650px", "340px"]
+                        ,yes: function(index, layero){
+                            var body = layer.getChildFrame('body', index);
+                            body.find("#draftClue").submit();
+                            layer.msg('保存成功')
+                            layer.close(index); //如果设定了yes回调，需进行手工关闭
+                        }
+                    });
+                }
+
+            });
+
+            //新选项卡打开
+            $("*[data-href]").unbind("click").click(function (e) {
+                var title = $(this).attr("title") || $.trim($(this).html());
+                var href = $(this).attr("data-href");
+                window.open(href);
+            });
+
+
+        });
+
+    </script>
+</th:block>
+<script>
+</script>
+
+</html>
